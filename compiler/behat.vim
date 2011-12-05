@@ -14,13 +14,22 @@ endif
 let s:cpo_save = &cpo
 set cpo-=C
 
-CompilerSet makeprg=behat
+let s:behat_cmds = ['php app/console -e=test behat', './behat', 'behat']
+function! s:findBehatCmd()
+  for cmd in s:behat_cmds
+    call system(cmd.' -h')
+    if v:shell_error == 0
+      return cmd
+    endif
+  endfor
+  return 'echoerr "behat: behat command not found"'
+endfunction
+
+let s:behat_cmd = substitute(call('s:findBehatCmd', []), '\s', '\\ ', 'g')
+
+exe 'CompilerSet makeprg='.s:behat_cmd.'\ -f\ progress\ $*'
 
 CompilerSet errorformat=
-      \%W%m\ (Behat::Undefined),
-      \%E%m\ (%.%#),
-      \%Z%f:%l,
-      \%Z%f:%l:%.%#
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
