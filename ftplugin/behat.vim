@@ -36,7 +36,7 @@ function! s:definitions()
       return val
     endif
   endfor
-  let v:errmsg = 'behat: behat command not found'
+  let v:errmsg = 'behat: behat command not found or returned an error'
   throw v:errmsg
 endfunction
 
@@ -45,6 +45,11 @@ function! s:bsub(target,pattern,replacement)
 endfunction
 
 function! BehatComplete(findstart,base) abort
+  try
+    let definitions = s:definitions()
+  catch /^behat:/
+    return -1
+  endtry
   let indent = indent('.')
   let group = synIDattr(synID(line('.'),indent+1,1),'name')
   let type = matchstr(group,'\Ccucumber\zs\%(Given\|When\|Then\)')
@@ -56,11 +61,6 @@ function! BehatComplete(findstart,base) abort
     return e
   endif
   let steps = []
-  try
-    let definitions = s:definitions()
-  catch /^behat:/
-    return 'echoerr v:errmsg'
-  endtry
   for step in definitions
     if step[0] ==# type
       if step[1] =~ '^[''"]'
