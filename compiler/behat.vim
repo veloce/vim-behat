@@ -14,7 +14,7 @@ endif
 let s:cpo_save = &cpo
 set cpo-=C
 
-let s:behat_cmds = ['php app/console -e=test behat', './behat', 'behat']
+let s:behat_cmds = ['php app/console -e=test behat', './behat', 'php behat.phar', 'behat']
 function! s:findBehatCmd()
   for cmd in s:behat_cmds
     call system(cmd.' -h')
