@@ -29,7 +29,7 @@ function! s:definitions()
       for def in split(output, "\n")
         let def = substitute(def,'^\s\+','','')
         let type = matchstr(def,'\w\+')
-        let pattern = matchstr(def,'\/\^.\{-\}\$\/')
+        let pattern = matchstr(def,'\/\^.\{-}\$\/')
         let val += [[type, pattern]]
       endfor
       return val
