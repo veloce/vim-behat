@@ -19,7 +19,7 @@ let b:undo_ftplugin = "setl fo< com< cms< ofu<"
 
 let b:behat_root = expand('%:p:h:s?.*[\/]\%(features\|stories\)\zs[\/].*??\c')
 
-let s:behat_cmds = ['php app/console -e=test behat', './behat', 'php behat.phar', 'behat']
+let s:behat_cmds = ['php app/console -e=test behat', './behat', 'php behat.phar', 'bin/behat', 'behat']
 function! s:definitions()
   for cmd in s:behat_cmds
     let shellcmd = cmd.' '.b:behat_root.' --definitions'
