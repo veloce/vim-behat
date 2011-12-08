@@ -27,8 +27,11 @@ function! s:definitions()
     if v:shell_error == 0
       let val = []
       for def in split(output, "\n")
+        " trim whitespaces
         let def = substitute(def,'^\s\+','','')
         let def = substitute(def,'\s\+$','','')
+        " keep only step type and pattern definition
+        let def = substitute(def,'\(\w\+\s\/\^.\{-\}\$\/\)\%(.*\)\?$','\1','')
         let type = matchstr(def,'\w\+')
         let val += [[type, substitute(def,'\w\+\s','','')]]
       endfor
