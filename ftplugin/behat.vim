@@ -64,7 +64,7 @@ function! BehatComplete(findstart,base) abort
     if step[0] ==# type
       if step[1] =~ '^[''"]'
         let steps += [step[1][1:-2]]
-      elseif step[1] =~ '^/\^.*\$/$'
+      elseif step[1] =~ '^\/\^.*\$\/$'
         let pattern = step[1][2:-3]
         let pattern = substitute(pattern,'\C^(?:|I )','I ','')
         let pattern = s:bsub(pattern,'\\[Sw]','w')
