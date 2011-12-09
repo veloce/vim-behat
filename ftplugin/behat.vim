@@ -73,6 +73,7 @@ function! BehatComplete(findstart,base) abort
         let pattern = s:bsub(pattern,'\[\^\\\="\]','_')
         let pattern = s:bsub(pattern,'[[:alnum:]. _-][?+*]?\=','')
         let pattern = s:bsub(pattern,'\[\([^^]\).\{-\}\]','\1')
+        let pattern = s:bsub(pattern,'(?P<\([^>]\+\)>\%(([^)]\+)\)\?.\{-})','{\1}')
         let pattern = s:bsub(pattern,'+?\=','')
         let pattern = s:bsub(pattern,'(\([[:alnum:]. -]\{-\}\))','\1')
         let pattern = s:bsub(pattern,'\\\([[:punct:]]\)','\1')
