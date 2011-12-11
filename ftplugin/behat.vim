@@ -71,12 +71,12 @@ function! BehatComplete(findstart,base) abort
         let pattern = s:bsub(pattern,'\\d','1')
         let pattern = s:bsub(pattern,'\\[sWD]',' ')
         let pattern = s:bsub(pattern,'\[\^\\\="\]','_')
-        let pattern = s:bsub(pattern,'[[:alnum:]. _-][?+*]?\=','')
+        let pattern = s:bsub(pattern,'[[:alnum:]. _-][?*]?\=','')
         let pattern = s:bsub(pattern,'\[\([^^]\).\{-\}\]','\1')
         let pattern = s:bsub(pattern,'(\(\w\+\)\%(|\w\+\)\+)','\1')
         let pattern = s:bsub(pattern,'(?P<\([^>]\+\)>\%(([^)]\+)\)\?.\{-})','{\1}')
         let pattern = s:bsub(pattern,'+?\=','')
-        let pattern = s:bsub(pattern,'(\([[:alnum:]. -]\{-\}\))','\1')
+        let pattern = s:bsub(pattern,'(\([[:alnum:]. _-]\{-\}\))','\1')
         let pattern = s:bsub(pattern,'\\\([[:punct:]]\)','\1')
         if pattern !~ '[\\*?]'
           let steps += [pattern]
