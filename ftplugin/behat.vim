@@ -1,6 +1,5 @@
 " Vim filetype plugin
-" This is an adaption of the original cucumber.vim plugin by Tim Pope for
-" behat
+" This is an adaption of the original cucumber.vim plugin by Tim Pope
 " Language:	Behat
 " Maintainer:	Vincent Velociter
 " Last Change:	2011 12 02
@@ -20,6 +19,60 @@ let b:undo_ftplugin = "setl fo< com< cms< ofu<"
 let b:behat_root = expand('%:p:h:s?.*[\/]\%(features\|stories\)\zs[\/].*??\c')
 
 let s:behat_cmds = ['php app/console -e=test behat', './behat', 'php behat.phar', 'bin/behat', 'behat']
+
+if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
+  nnoremap <silent><buffer> <C-]>       :<C-U>exe <SID>jump('tjump',v:count)<CR>
+  nnoremap <silent><buffer> <C-W>]      :<C-U>exe <SID>jump('stjump',v:count)<CR>
+  nnoremap <silent><buffer> <C-W><C-]>  :<C-U>exe <SID>jump('stjump',v:count)<CR>
+  nnoremap <silent><buffer> <C-W>}      :<C-U>exe <SID>jump('ptjump',v:count)<CR>
+  let b:undo_ftplugin .= "| sil! nunmap <buffer> <C-]>| sil! nunmap <buffer> <C-W>]| sil! nunmap <buffer> <C-W><C-]>| sil! nunmap <buffer> <C-W>}"
+endif
+
+function! s:jump(command,count)
+  let steps = s:steps('.')
+  if len(steps) == 0 || len(steps) < a:count
+    return 'echoerr "No matching step found"'
+  elseif len(steps) > 1 && !a:count
+    return 'echoerr "Multiple matching steps found"'
+  else
+    let c = a:count ? a:count-1 : 0
+    return a:command.' '.step[c][1]
+  endif
+endfunction
+
+function! s:steps(lnum)
+  let c = indent(a:lnum) + 1
+  while synIDattr(synID(a:lnum,c,1),'name') !~# '^$\|Region$'
+    let c = c + 1
+  endwhile
+  let step = matchstr(getline(a:lnum)[c-1 : -1],'^\s*\zs.\{-\}\ze\s*$')
+  return filter(s:definitions_source(),'s:stepmatch(v:val[2],step)')
+endfunction
+
+function! s:stepmatch(receiver,target)
+endfunction
+
+function! s:definitions_source()
+  for cmd in s:behat_cmds
+    " --definitions-source option is available since behat release FIXME
+    let shellcmd = cmd.' '.b:behat_root.' --definitions-source'
+    let output = system(shellcmd)
+    if v:shell_error == 0
+      let val = []
+      for def in split(output, "\n")
+        let pattern = matchstr(def,'\/\^.\{-}\$\/')
+        let source = matchstr(def,'#.*$')
+        let class = matchstr(source, '\w\+\ze::')
+        let method = matchstr(source, '::\zs\w\+\ze()')
+        let val += [[class,method,pattern]]
+      endfor
+      return val
+    endif
+  endfor
+  let v:errmsg = 'behat: behat command not found or returned an error'
+  throw v:errmsg
+endfunction
+
 function! s:definitions()
   for cmd in s:behat_cmds
     let shellcmd = cmd.' '.b:behat_root.' --definitions'
@@ -30,7 +83,7 @@ function! s:definitions()
         let def = substitute(def,'^\s\+','','')
         let type = matchstr(def,'\w\+')
         let pattern = matchstr(def,'\/\^.\{-}\$\/')
-        let val += [[type, pattern]]
+        let val += [[type,pattern]]
       endfor
       return val
     endif
