@@ -46,46 +46,39 @@ function! s:steps(lnum)
     let c = c + 1
   endwhile
   let step = matchstr(getline(a:lnum)[c-1 : -1],'^\s*\zs.\{-\}\ze\s*$')
-  return filter(s:definitions_source(),'s:stepmatch(v:val[2],step)')
+  return filter(s:definfo(),'s:stepmatch(v:val[2],step)')
 endfunction
 
 function! s:stepmatch(receiver,target)
 endfunction
 
-function! s:definitions_source()
+function! s:deflist()
+  let steps = []
   for cmd in s:behat_cmds
-    " --definitions-source option is available since behat release FIXME
-    let shellcmd = cmd.' '.b:behat_root.' --definitions-source'
-    let output = system(shellcmd)
+    " behat >=2.2
+    let output = system(cmd.' '.b:behat_root.' -dl')
     if v:shell_error == 0
-      let val = []
       for def in split(output, "\n")
-        let pattern = matchstr(def,'\/\^.\{-}\$\/')
-        let source = matchstr(def,'#.*$')
-        let class = matchstr(source, '\w\+\ze::')
-        let method = matchstr(source, '::\zs\w\+\ze()')
-        let val += [[class,method,pattern]]
+        let def = substitute(def,'^\s\+','','')
+        let type = matchstr(def,'\w\+')
+        let pattern = matchstr(def,'\w\+\s\zs.*$')
+        if pattern !~ '^\/\^'
+          let pattern = '/^' . pattern . '$/'
+        endif
+        let steps += [[type,pattern]]
       endfor
-      return val
+      return steps
     endif
-  endfor
-  let v:errmsg = 'behat: behat command not found or returned an error'
-  throw v:errmsg
-endfunction
-
-function! s:definitions()
-  for cmd in s:behat_cmds
-    let shellcmd = cmd.' '.b:behat_root.' --definitions'
-    let output = system(shellcmd)
+    " behat <2.2
+    let output = system(cmd.' '.b:behat_root.' --definitions')
     if v:shell_error == 0
-      let val = []
       for def in split(output, "\n")
         let def = substitute(def,'^\s\+','','')
         let type = matchstr(def,'\w\+')
         let pattern = matchstr(def,'\/\^.\{-}\$\/')
-        let val += [[type,pattern]]
+        let steps += [[type,pattern]]
       endfor
-      return val
+      return steps
     endif
   endfor
   let v:errmsg = 'behat: behat command not found or returned an error'
@@ -98,7 +91,7 @@ endfunction
 
 function! BehatComplete(findstart,base) abort
   try
-    let definitions = s:definitions()
+    let definitions = s:deflist()
   catch /^behat:/
     return -1
   endtry
