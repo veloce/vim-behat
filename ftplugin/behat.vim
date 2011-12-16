@@ -36,7 +36,7 @@ function! s:jump(command,count)
     return 'echoerr "Multiple matching steps found"'
   else
     let c = a:count ? a:count-1 : 0
-    return a:command.' '.step[c][1]
+    return a:command.' '.steps[c][1]
   endif
 endfunction
 
@@ -50,6 +50,43 @@ function! s:steps(lnum)
 endfunction
 
 function! s:stepmatch(receiver,target)
+  if a:receiver =~ '^/.*/$'
+    let pattern = a:receiver[1:-2]
+  else
+    return 0
+  endif
+  try
+    let vimpattern = substitute(substitute(pattern,'\\\@<!(?:','%(','g'),'\\\@<!\*?','{-}','g')
+    if a:target =~# '\v'.vimpattern
+      return 1
+    endif
+  catch
+  endtry
+endfunction
+
+function! s:definfo()
+  let steps = []
+  for cmd in s:behat_cmds
+    let output = system(cmd.' '.b:behat_root.' -di')
+    if v:shell_error == 0
+      let definfos = filter(split(output, "\n"), 'v:val !~ "\\%(^$\\|\\s\\+-\\)"')
+      let index = 0
+      while index < len(definfos)
+        let pattern = matchstr(definfos[index],'^\s\?\w\+\s\zs.*$')
+        if pattern !~ '^\/\^'
+          let pattern = '/^' . pattern . '$/'
+        endif
+        let source = matchstr(definfos[index + 1],'#\s\zs.*$')
+        let class = matchstr(source, '\w\+\ze::')
+        let method = matchstr(source, '::\zs\w\+\ze()')
+        let steps += [[class,method,pattern]]
+        let index = index + 2
+      endwhile
+      return steps
+    endif
+  endfor
+  let v:errmsg = 'behat: behat command not found or returned an error'
+  throw v:errmsg
 endfunction
 
 function! s:deflist()
