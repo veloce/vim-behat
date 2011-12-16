@@ -108,14 +108,10 @@ function! BehatComplete(findstart,base) abort
   let steps = []
   for step in definitions
     if step[0] ==# type
-      if step[1] =~ '^[''"]'
-        let steps += [step[1][1:-2]]
-      elseif step[1] =~ '^\/\^.*\$\/$'
+      if step[1] =~ '^\/\^.*\$\/$'
         let pattern = step[1][2:-3]
         let pattern = substitute(pattern,'\C^(?:|\?\(\w\{-1,}\) )?\?','\1 ','')
-        let pattern = s:bsub(pattern,'\\[Sw]','w')
         let pattern = s:bsub(pattern,'\\d','1')
-        let pattern = s:bsub(pattern,'\\[sWD]',' ')
         let pattern = s:bsub(pattern,'\[\^\\\="\]','_')
         let pattern = s:bsub(pattern,'[[:alnum:]. _-][?*]?\=','')
         let pattern = s:bsub(pattern,'\[\([^^]\).\{-\}\]','\1')
