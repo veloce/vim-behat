@@ -18,7 +18,7 @@ let b:undo_ftplugin = "setl fo< com< cms< ofu<"
 
 let b:behat_root = expand('%:p:h:s?.*[\/]\%(features\|stories\)\zs[\/].*??\c')
 
-let s:behat_cmds = ['php app/console -e=test behat', './behat', 'php behat.phar', 'bin/behat', 'behat']
+let s:behat_cmds = ['php app/console -e=test behat', 'php behat.phar', './behat', 'behat']
 
 if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
   nnoremap <silent><buffer> <C-]>       :<C-U>exe <SID>jump('tjump',v:count)<CR>
@@ -56,6 +56,7 @@ function! s:stepmatch(receiver,target)
     return 0
   endif
   try
+    let pattern = substitute(pattern, '\\\@<!(?P<[^>]\+>\([^)]\+)\?[*+]\?\))','\1','g')
     let vimpattern = substitute(substitute(pattern,'\\\@<!(?:','%(','g'),'\\\@<!\*?','{-}','g')
     if a:target =~# '\v'.vimpattern
       return 1
