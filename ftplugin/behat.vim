@@ -1,8 +1,7 @@
 " Vim filetype plugin
 " This is an adaption of the original cucumber.vim plugin by Tim Pope
 " Language:	Behat
-" Maintainer:	Vincent Velociter
-" Last Change:	2011 12 02
+" Maintainer: Vincent Velociter
 
 " Only do this when not done yet for this buffer
 if (exists("b:did_ftplugin"))
