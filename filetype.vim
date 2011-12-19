@@ -12,8 +12,8 @@ endif
 au BufRead,BufNewFile *.feature call s:FTfeature()
 
 func! s:FTfeature()
-  if exists("g:ft_feature")
-    exe "setf " . g:ft_feature
+  if exists("g:feature_filetype")
+    exe "setf " . g:feature_filetype
   else
     setf cucumber
   endif
