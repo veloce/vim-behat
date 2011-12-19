@@ -29,7 +29,11 @@ if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
 endif
 
 function! s:jump(command,count)
-  let steps = s:steps('.')
+  try
+    let steps = s:steps('.')
+  catch /^behat:/
+    return 'echoerr v:errmsg'
+  endtry
   if len(steps) == 0 || len(steps) < a:count
     return 'echoerr "No matching step found"'
   elseif len(steps) > 1 && !a:count
