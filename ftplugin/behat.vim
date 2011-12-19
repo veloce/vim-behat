@@ -132,11 +132,6 @@ function! s:bsub(target,pattern,replacement)
 endfunction
 
 function! BehatComplete(findstart,base) abort
-  try
-    let definitions = s:deflist()
-  catch /^behat:/
-    return -1
-  endtry
   let indent = indent('.')
   let group = synIDattr(synID(line('.'),indent+1,1),'name')
   let type = matchstr(group,'\Ccucumber\zs\%(Given\|When\|Then\)')
@@ -147,6 +142,11 @@ function! BehatComplete(findstart,base) abort
   if a:findstart
     return e
   endif
+  try
+    let definitions = s:deflist()
+  catch /^behat:/
+    return -1
+  endtry
   let steps = []
   for step in definitions
     if step[0] ==# type
@@ -169,8 +169,7 @@ function! BehatComplete(findstart,base) abort
       endif
     endif
   endfor
-  call filter(steps,'strpart(v:val,0,strlen(a:base)) ==# a:base')
-  return sort(steps)
+  return sort(filter(steps,'strpart(v:val,0,strlen(a:base)) ==# a:base'))
 endfunction
 
 " vim:set sts=2 sw=2:
