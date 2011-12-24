@@ -34,7 +34,7 @@ let s:behat_cmd = substitute(call('s:findBehatCmd', []), '\s', '\\ ', 'g')
 
 exe 'CompilerSet makeprg='.s:behat_cmd.'\ -f\ progress\ $*'
 
-CompilerSet errorformat=%C%n%.%#,%E%.%##\ %f:%l,%Z%m,%-G%.%#
+CompilerSet errorformat=%Z\ \ \ \ From\ scenario%.%##\ %f:%l,%E%m(),%-G%.%#
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
