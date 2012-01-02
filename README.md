@@ -8,9 +8,11 @@ are the same as cucumber's runtime files.  Only the compiler and ftplugin change
 
 Features:
 
-* autocompletion of steps
-* jump to step definition (behat version from 2.2 and ctags are required)
-* compiler
+* autocompletion of steps (with `<C-X><C-O>`)
+* jump to step definition (behat version from 2.2 and ctags are required) with
+tags commands `<C-]>`, `<C-W>]`, `<C-W>}`
+* compiler plugin allow you to run behat with `:make` and see errors in the quickfix
+window
 
 ## Installation
 
