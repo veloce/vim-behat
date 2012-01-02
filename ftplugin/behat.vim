@@ -25,26 +25,25 @@ else
 endif
 
 if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
-  nnoremap <silent><buffer> <C-]>       :<C-U>exe <SID>jump('tjump',v:count)<CR>
-  nnoremap <silent><buffer> <C-W>]      :<C-U>exe <SID>jump('stjump',v:count)<CR>
-  nnoremap <silent><buffer> <C-W><C-]>  :<C-U>exe <SID>jump('stjump',v:count)<CR>
-  nnoremap <silent><buffer> <C-W>}      :<C-U>exe <SID>jump('ptjump',v:count)<CR>
+  nnoremap <silent><buffer> <C-]>       :<C-U>exe <SID>jump('tjump')<CR>
+  nnoremap <silent><buffer> <C-W>]      :<C-U>exe <SID>jump('stjump')<CR>
+  nnoremap <silent><buffer> <C-W><C-]>  :<C-U>exe <SID>jump('stjump')<CR>
+  nnoremap <silent><buffer> <C-W>}      :<C-U>exe <SID>jump('ptjump')<CR>
   let b:undo_ftplugin .= "| sil! nunmap <buffer> <C-]>| sil! nunmap <buffer> <C-W>]| sil! nunmap <buffer> <C-W><C-]>| sil! nunmap <buffer> <C-W>}"
 endif
 
-function! s:jump(command,count)
+function! s:jump(command)
   try
     let steps = s:steps('.')
   catch /^behat:/
     return 'echoerr v:errmsg'
   endtry
-  if len(steps) == 0 || len(steps) < a:count
+  if len(steps) == 0
     return 'echoerr "No matching step found"'
-  elseif len(steps) > 1 && !a:count
-    return 'echoerr "Multiple matching steps found"'
+  elseif len(steps) > 1
+    return 'echoerr "Multiple matching step found"'
   else
-    let c = a:count ? a:count-1 : 0
-    return a:command.' '.steps[c][1]
+    return a:command.' '.steps[0][1]
   endif
 endfunction
 
