@@ -4,14 +4,14 @@ This is an adaptation of the [cucumber.vim](https://github.com/tpope/vim-pathoge
 for [Behat](http://behat.org).
 
 Behat uses the same langage as cucumber (Gherkin), so indent and syntax scripts
-are the same as cucumber's runtime files.  Only the compiler and ftplugin change.
+are the same as cucumber runtime files.  Only the compiler and ftplugin change.
 
 Features:
 
 * autocompletion of steps (with `<C-X><C-O>`)
 * jump to step definition (**behat version from 2.2 and ctags are required**) with
 tag commands `<C-]>`, `<C-W>]`, `<C-W>}`
-* compiler plugin allow you to run behat with `:make` and see errors in the quickfix
+* compiler plugin that allow you to run behat with `:make` and see errors in the quickfix
 window
 
 ## Installation
