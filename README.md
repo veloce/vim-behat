@@ -1,6 +1,6 @@
 # behat.vim
 
-This is an adaptation of the [cucumber.vim](https://github.com/tpope/vim-pathogen)
+This is an adaptation of [cucumber.vim](https://github.com/tpope/vim-pathogen)
 for [Behat](http://behat.org).
 
 Behat uses the same langage as cucumber (Gherkin), so indent and syntax scripts
@@ -16,15 +16,16 @@ window
 
 ## Installation
 
-You can download the archive, but I recommand using [pathogen.vim](https://github.com/tpope/vim-pathogen):
+You can download the archive, and uncompress it in your `~/.vim` folder. 
+I recommand using [pathogen.vim](https://github.com/tpope/vim-pathogen), though:
 
     cd ~/.vim/bundle
     git clone git://github.com/veloce/vim-behat.git
 
 Behat feature files share the same `.feature` extension with cucumber, so in
 order to choose the behat filetype plugin, you need to set the following global 
-in your .vimrc:
+in your `.vimrc`:
 
     let feature_filetype='behat'
 
-If you don't, cucumber will be used instead.
+If you don't, cucumber will be used as filetype by default.
