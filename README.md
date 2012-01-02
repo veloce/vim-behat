@@ -1,6 +1,6 @@
 # behat.vim
 
-This is an adaptation of [cucumber.vim](https://github.com/tpope/vim-pathogen)
+This is an adaptation of [cucumber.vim](https://github.com/tpope/vim-cucumber)
 for [Behat](http://behat.org).
 
 Behat uses the same langage as cucumber (Gherkin), so indent and syntax scripts
