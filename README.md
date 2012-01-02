@@ -10,7 +10,7 @@ Features:
 
 * autocompletion of steps (with `<C-X><C-O>`)
 * jump to step definition (**behat version from 2.2 and ctags are required**) with
-tags commands `<C-]>`, `<C-W>]`, `<C-W>}`
+tag commands `<C-]>`, `<C-W>]`, `<C-W>}`
 * compiler plugin allow you to run behat with `:make` and see errors in the quickfix
 window
 
