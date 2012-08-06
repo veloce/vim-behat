@@ -14,10 +14,9 @@ endif
 let s:cpo_save = &cpo
 set cpo-=C
 
+let s:behat_cmds = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
 if exists("g:behat_cmds")
-  let s:behat_cmds = g:behat_cmds
-else
-  let s:behat_cmds = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
+  let s:behat_cmds = g:behat_cmds + s:behat_cmds
 endif
 
 function! s:findBehatCmd()

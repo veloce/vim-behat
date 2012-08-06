@@ -18,10 +18,9 @@ let b:undo_ftplugin = "setl fo< com< cms< ofu<"
 
 let b:behat_root = expand('%:p:h:s?.*[\/]\%(features\|stories\)\zs[\/].*??\c')
 
+let s:behat_cmds = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
 if exists("g:behat_cmds")
-  let s:behat_cmds = g:behat_cmds
-else
-  let s:behat_cmds = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
+  let s:behat_cmds = g:behat_cmds + s:behat_cmds
 endif
 
 if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
