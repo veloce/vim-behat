@@ -74,6 +74,9 @@ endfunction
 function! s:definfo()
   let steps = []
   for cmd in s:behat_cmds
+    if exists("b:profile")
+      let cmd = cmd.' -p '.b:profile
+    endif
     let output = system(cmd.' '.b:behat_root.' -di')
     if v:shell_error == 0
       let definfos = filter(split(output, "\n"), 'v:val !~ "\\%(^$\\|\\s\\+-\\)"')
@@ -100,6 +103,9 @@ function! s:deflist()
   let steps = []
   for cmd in s:behat_cmds
     " behat >=2.2
+    if exists("b:profile")
+      let cmd = cmd.' -p '.b:profile
+    endif
     let output = system(cmd.' '.b:behat_root.' -dl')
     if v:shell_error == 0
       for def in split(output, "\n")

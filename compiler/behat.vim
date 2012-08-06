@@ -23,6 +23,9 @@ function! s:findBehatCmd()
   for cmd in s:behat_cmds
     call system(cmd.' -h')
     if v:shell_error == 0
+      if exists("b:profile")
+        let cmd = cmd.' -p '.b:profile
+      endif
       return cmd
     endif
   endfor
