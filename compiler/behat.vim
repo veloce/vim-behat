@@ -14,22 +14,22 @@ endif
 let s:cpo_save = &cpo
 set cpo-=C
 
-let s:behat_cmds = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
-if exists("g:behat_cmds")
-  let s:behat_cmds = g:behat_cmds + s:behat_cmds
+let s:behat_executables = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
+if exists("g:behat_executables")
+  let s:behat_executables = g:behat_executables + s:behat_executables
 endif
 
 function! s:findBehatCmd()
-  for cmd in s:behat_cmds
+  for cmd in s:behat_executables
     call system(cmd.' -h')
     if v:shell_error == 0
-      if exists("b:profile")
-        let cmd = cmd.' -p '.b:profile
+      if exists('b:behat_cmd_args')
+        let cmd = cmd . ' ' . b:behat_cmd_args
       endif
       return cmd
     endif
   endfor
-  return 'echoerr "behat: behat command not found"'
+  return 'echoerr "behat: behat command not found or returned an error"'
 endfunction
 
 let s:behat_cmd = substitute(call('s:findBehatCmd', []), '\s', '\\ ', 'g')

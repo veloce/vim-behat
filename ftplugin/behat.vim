@@ -18,9 +18,9 @@ let b:undo_ftplugin = "setl fo< com< cms< ofu<"
 
 let b:behat_root = expand('%:p:h:s?.*[\/]\%(features\|stories\)\zs[\/].*??\c')
 
-let s:behat_cmds = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
-if exists("g:behat_cmds")
-  let s:behat_cmds = g:behat_cmds + s:behat_cmds
+let s:behat_executables = ['php app/console -e=test behat', 'php behat.phar', './behat', 'bin/behat', 'behat']
+if exists("g:behat_executables")
+  let s:behat_executables = g:behat_executables + s:behat_executables
 endif
 
 if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
@@ -73,9 +73,9 @@ endfunction
 
 function! s:definfo()
   let steps = []
-  for cmd in s:behat_cmds
-    if exists("b:profile")
-      let cmd = cmd.' -p '.b:profile
+  for cmd in s:behat_executables
+    if exists('b:behat_cmd_args')
+      let cmd = cmd . ' ' . b:behat_cmd_args
     endif
     let output = system(cmd.' '.b:behat_root.' -di')
     if v:shell_error == 0
@@ -101,11 +101,11 @@ endfunction
 
 function! s:deflist()
   let steps = []
-  for cmd in s:behat_cmds
-    " behat >=2.2
-    if exists("b:profile")
-      let cmd = cmd.' -p '.b:profile
+  for cmd in s:behat_executables
+    if exists('b:behat_cmd_args')
+      let cmd = cmd . ' ' . b:behat_cmd_args
     endif
+    " behat >=2.2
     let output = system(cmd.' '.b:behat_root.' -dl')
     if v:shell_error == 0
       for def in split(output, "\n")
