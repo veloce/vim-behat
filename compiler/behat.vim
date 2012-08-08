@@ -32,9 +32,11 @@ function! s:findBehatCmd()
   return 'echoerr "behat: behat command not found or returned an error"'
 endfunction
 
+command! -buffer BehatCmdToClipBoard execute "let @*=call('s:findBehatCmd',[]).' '.expand('%')"
+
 let s:behat_cmd = substitute(call('s:findBehatCmd', []), '\s', '\\ ', 'g')
 
-exe 'CompilerSet makeprg='.s:behat_cmd.'\ -f\ progress\ $*'
+execute 'CompilerSet makeprg='.s:behat_cmd.'\ -f\ progress\ $*'
 
 CompilerSet errorformat=%Z\ \ \ \ From\ scenario%.%##\ %f:%l,%E%m(),%-G%.%#
 

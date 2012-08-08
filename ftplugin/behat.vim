@@ -31,20 +31,6 @@ if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
   let b:undo_ftplugin .= "| sil! nunmap <buffer> <C-]>| sil! nunmap <buffer> <C-W>]| sil! nunmap <buffer> <C-W><C-]>| sil! nunmap <buffer> <C-W>}"
 endif
 
-function! s:getCurrentCmd()
-  for cmd in s:behat_executables
-    call system(cmd.' -h')
-    if v:shell_error == 0
-      if exists('b:behat_cmd_args')
-        let cmd = cmd . ' ' . b:behat_cmd_args
-      endif
-      return cmd . ' ' . expand('%')
-    endif
-  endfor
-  return 'echoerr "behat: behat command not found or returned an error"'
-endfunction
-com! BehatCmdToClipBoard let @*=call('s:getCurrentCmd',[])
-
 function! s:jump(command)
   try
     let steps = s:steps('.')
