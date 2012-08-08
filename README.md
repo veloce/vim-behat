@@ -11,9 +11,10 @@ Features:
 * autocompletion of steps (with `<C-X><C-O>`)
 * jump to step definition (**behat version from 2.2 and ctags are required**) with
 tag commands `<C-]>`, `<C-W>]`, `<C-W>}`
-* compiler plugin that allow you to run behat with `:make` and see errors in the quickfix
-window
-* Copy the behat command to run features in the current buffer into the clipboard (`:BehatCmdToClipBoard`)
+* compiler plugin that allows you to run behat with `:make` and see errors in 
+the quickfix window (enable with `:compiler behat`)
+* Copy to the clipboard the behat command to run features in the current buffer
+(`:BehatCmdToClipBoard`). You need to enable behat compiler to have this command.
 
 ## Installation
 
