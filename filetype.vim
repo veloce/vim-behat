@@ -8,12 +8,12 @@ if exists("did_load_filetypes")
   finish
 endif
 
-au BufRead,BufNewFile *.feature call s:FTfeature()
+autocmd BufRead,BufNewFile *.feature call s:FTfeature()
 
-func! s:FTfeature()
+function! s:FTfeature()
   if exists("g:feature_filetype")
-    exe "setf " . g:feature_filetype
+    execute "setfiletype " . g:feature_filetype
   else
-    setf cucumber
+    setfiletype cucumber
   endif
-endfunc
+endfunction
