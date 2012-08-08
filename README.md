@@ -6,7 +6,7 @@ for [Behat](http://behat.org).
 Behat uses the same langage as cucumber (Gherkin), so indent and syntax scripts
 are the same as cucumber runtime files.  Only the compiler and ftplugin change.
 
-Features:
+## Features
 
 * autocompletion of steps (with `<C-X><C-O>`)
 * jump to step definition (**behat version from 2.2 and ctags are required**) with
