@@ -3,8 +3,8 @@
 This is an adaptation of [cucumber.vim](https://github.com/tpope/vim-cucumber)
 for [Behat](http://behat.org).
 
-Behat uses the same langage as cucumber (Gherkin), so indent and syntax scripts
-are the same as cucumber runtime files.  Only the compiler and ftplugin change.
+Behat uses the same language as cucumber to describe features), so indent and syntax scripts
+are the same as cucumber runtime files. Only the compiler and ftplugin are specific to Behat.
 
 ## Features
 
