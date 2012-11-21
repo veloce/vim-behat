@@ -14,7 +14,8 @@ ftplugin are specific to Behat.
 tag commands `<C-]>`, `<C-W>]`, `<C-W>}`
 * **compiler plugin** that allows you to run behat with `:make` and see errors in
 the quickfix window (enable with `:compiler behat`)
-* works well with **neocomplcache** (see below the settings needed)
+* works well with [neocomplcache](https://github.com/Shougo/neocomplcache)
+(see below the settings needed)
 * Copy to the **clipboard** the behat command to run features in the current buffer
 (`:BehatCmdToClipBoard`). You need to enable behat compiler to have this command.
 
