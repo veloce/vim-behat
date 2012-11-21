@@ -23,6 +23,10 @@ if exists("g:behat_executables")
   let s:behat_executables = g:behat_executables + s:behat_executables
 endif
 
+if !exists("g:behat_disable_omnicompl_cache")
+    let g:behat_disable_omnicompl_cache = 0
+endif
+
 if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
   nnoremap <silent><buffer> <C-]>       :<C-U>exe <SID>jump('tjump')<CR>
   nnoremap <silent><buffer> <C-W>]      :<C-U>exe <SID>jump('stjump')<CR>
@@ -161,7 +165,7 @@ function! BehatComplete(findstart,base) abort
       return -1
     endtry
   endif
-  if !exists("g:behat_disable_omnicompl_cache")
+  if !g:behat_disable_omnicompl_cache
       let s:step_defs_cache = definitions
   endif
   let steps = []
