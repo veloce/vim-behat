@@ -56,14 +56,15 @@ let feature_filetype='behat'
 " be prepended to the default path with g:behat_executables.
 let g:behat_executables = ['behat.sh']
 
-" disable omni completion cache (enabled by default as calling behat can be slow)
-let g:behat_disable_omnicompl_cache = 1
-
 " if you use neocomplcache add this to enable behat completion
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
 let g:neocomplcache_omni_patterns.behat = '\(When\|Then\|Given\|And\)\s.*$'
+
+" disable omni completion steps cache
+" normally you don't want to do this because it's slow (and will prevent neocomplcache from working)
+" let g:behat_disable_omnicompl_cache = 1
 ```
 
 ### Buffer (local) settings examples
