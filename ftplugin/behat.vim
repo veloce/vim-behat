@@ -35,7 +35,7 @@ if !exists("g:no_plugin_maps") && !exists("g:no_behat_maps")
   let b:undo_ftplugin .= "| sil! nunmap <buffer> <C-]>| sil! nunmap <buffer> <C-W>]| sil! nunmap <buffer> <C-W><C-]>| sil! nunmap <buffer> <C-W>}"
 endif
 
-command! -buffer BehatInvalidatesOmniCache execute "unlet s:step_defs_cache"
+command! -buffer BehatInvalidatesOmniCache execute "unlet b:step_defs_cache"
 
 function! s:jump(command)
   try
@@ -156,8 +156,8 @@ function! BehatComplete(findstart,base) abort
   if a:findstart
     return e
   endif
-  if exists("s:step_defs_cache")
-    let definitions = s:step_defs_cache
+  if exists("b:step_defs_cache")
+    let definitions = b:step_defs_cache
   else
     try
       let definitions = s:deflist()
@@ -166,7 +166,7 @@ function! BehatComplete(findstart,base) abort
     endtry
   endif
   if !g:behat_disable_omnicompl_cache
-      let s:step_defs_cache = definitions
+      let b:step_defs_cache = definitions
   endif
   let steps = []
   for step in definitions
