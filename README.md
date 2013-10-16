@@ -31,7 +31,7 @@ Behat feature files share the same `.feature` extension with cucumber, so in
 order to choose the behat filetype plugin, you need to set the following global
 in your `.vimrc`:
 
-    let feature_filetype='behat'
+    let g:feature_filetype='behat'
 
 If you don't, cucumber will be used as filetype by default.
 
@@ -49,7 +49,7 @@ If you don't, cucumber will be used as filetype by default.
 " ~/.vimrc
 
 " mandatory if you want the '*.feature' files to be set with behat filetype
-let feature_filetype='behat'
+let g:feature_filetype='behat'
 
 " The plugin tries successively several behat executables to find the good one
 " (php behat.phar, bin/behat, etc). You can define a custom list that will
